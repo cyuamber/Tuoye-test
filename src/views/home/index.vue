@@ -7,7 +7,9 @@
     </div>
     <van-cell icon="success" v-for="item in list" :key="item" :title="item" @click="showPopup(item)" />
     <van-popup v-model="showAnswer" :style="{ width: '80%' }">
-      <van-cell v-for="item in rightAnswer" :key="item" :title="item" />
+      <van-cell-group :title="currentAnswer">
+        <van-cell v-for="(answer, i) in rightAnswer" :key="answer" :title="preIndex + i + '：' + answer" />
+      </van-cell-group>
     </van-popup>
   </div>
 </template>
@@ -18,8 +20,10 @@ console.log(ANSWERS)
 export default {
   data() {
     return {
-      currentTime: '',
+      currentTime: '', //当前时间
+      currentAnswer: '', //当前的
       rightAnswer: '',
+      preIndex: 0, //列表中显示的起始题号
       showAnswer: false
     }
   },
@@ -46,11 +50,14 @@ export default {
   methods: {
     getCurrentTime() {
       setInterval(() => {
-        this.currentTime = new Date()
+        this.currentTime = new Date().toLocaleString()
       }, 1000)
     },
     showPopup(item) {
+      this.currentAnswer = item
       console.log(item)
+      const reg = new RegExp('\\w*(?=-)', 'g')
+      this.preIndex = Number(item.match(reg)[0])
       this.showAnswer = true
       ANSWERS.filter(answer => {
         if (item === Object.keys(answer)[0]) {
