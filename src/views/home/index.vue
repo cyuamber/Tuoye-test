@@ -2,13 +2,17 @@
 <template>
   <div class="index-container">
     <div class="warpper">
-      <h1 class="demo-home__title"><img src="https://imgs.solui.cn/weapp/logo.png" /><span>你需要的托业答案</span></h1>
+      <h1 class="demo-home__title"><span>我做的的托业答案</span></h1>
       <h2 class="demo-home__desc">{{ currentTime }}</h2>
     </div>
     <van-cell icon="success" v-for="item in list" :key="item" :title="item" @click="showPopup(item)" />
     <van-popup v-model="showAnswer" :style="{ width: '80%' }">
       <van-cell-group :title="currentAnswer">
-        <van-cell v-for="(answer, i) in rightAnswer" :key="answer" :title="preIndex + i + '：' + answer" />
+        <van-cell v-for="(answer, i) in rightAnswer" :key="answer" :title="preIndex + i + '：' + answer">
+          <template #right-icon>
+            <van-icon name="search" class="search-icon" />
+          </template>
+        </van-cell>
       </van-cell-group>
     </van-popup>
   </div>
@@ -75,7 +79,6 @@ export default {
     background: #fff;
     .demo-home__title {
       margin: 0 0 6px;
-      font-size: 32px;
       .demo-home__title img,
       .demo-home__title span {
         display: inline-block;
