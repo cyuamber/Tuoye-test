@@ -10,7 +10,7 @@
       <van-cell-group :title="currentAnswer">
         <van-cell v-for="(answer, i) in rightAnswer" :key="answer" :title="preIndex + i + '：' + answer">
           <template #right-icon>
-            <van-icon name="search" class="search-icon" />
+            <van-icon name="search" class="search-icon" @click="jumptoDetail(preIndex + i, answer)" />
           </template>
         </van-cell>
       </van-cell-group>
@@ -56,6 +56,12 @@ export default {
       setInterval(() => {
         this.currentTime = new Date().toLocaleString()
       }, 1000)
+    },
+    jumptoDetail(detail, answer) {
+      this.$router.push({
+        name: 'InfoTab',
+        params: { detail: detail, answer: answer, currentAnswer: this.currentAnswer }
+      })
     },
     showPopup(item) {
       this.currentAnswer = item
